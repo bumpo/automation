@@ -1,0 +1,19 @@
+--- #
+
+### var file for add-user playbook ####
+
+#host(s) to run play against
+
+ruser:
+
+host: 
+
+#user(s) to be added
+user: 
+
+
+#group(s) to add user to
+#any additoinal groups can  be added and any undesired can be commented out
+#when adding additional groups, not they MUST already exist on the target system. 
+
+group: 

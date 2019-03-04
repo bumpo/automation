@@ -1,0 +1,27 @@
+--- # Tasks to rotate ssh keys
+
+
+- name: Creating new SSH key.
+  shell: ssh-keygen -t rsa -b "{{ key_bits }}" -f "{{ key_path }}" -C "{{ key_comment}}" -N "" > /dev/null
+  delegate_to: localhost
+  run_once: true
+
+- name: setting ownership of keys
+  file:
+    path: "{{ key_dir }}"
+    owner: "{{ default_local_user }}"
+    group: "{{ default_local_user }}"
+    state: directory
+    recurse: yes
+  delegate_to: localhost
+  run_once: true
+
+- set_fact:
+    ssh_pub_key: "{{ lookup('file', key_path + '.pub') }}"
+
+- name: Place new pubkey in authorized_keys
+  authorized_key:
+    exclusive: "{{ is_exclusive }}"
+    user: "{{ host_user }}"
+    state: present
+    key: "{{ ssh_pub_key }}" 

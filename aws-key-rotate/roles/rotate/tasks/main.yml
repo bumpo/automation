@@ -1,0 +1,20 @@
+--- # Tasks to rotate aws cli creds on opsaws machines
+
+- name: replacing creds
+  copy:
+    src: "{{ playbook_dir }}/new-creds/credentials"
+    dest: /home/opsaws/.aws/
+    owner: opsaws
+    group: opsaws
+    force: yes
+    mode: 0600
+
+- name: replacing root aws creds
+  copy:
+    src: "{{ playbook_dir }}/new-creds/credentials"
+    dest: /root/.aws/
+    owner: root
+    group: root
+    force: yes
+    mode: 0600
+

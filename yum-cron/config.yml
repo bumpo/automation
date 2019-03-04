@@ -1,0 +1,7 @@
+--- # config file for yum-cron playbook
+
+#target group
+host: 
+
+#user to run play ass on remote host
+user: 

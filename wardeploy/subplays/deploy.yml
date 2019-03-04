@@ -1,0 +1,8 @@
+--- # deployment playbook for .war files to GMI instances
+
+- name: Deploying .war files
+  copy:
+    src: /home/wmoore/wardeploy/files/
+    dest: /opt/jboss-as/standalone/deployments/
+    owner: jboss-as
+    group: jboss-as

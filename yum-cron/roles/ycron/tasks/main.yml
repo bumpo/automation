@@ -1,0 +1,24 @@
+--- # tasks for yum-cron playbook
+
+- name: Installing yum-cron
+  yum:
+    name: yum-cron
+    state: present
+
+- template: 
+    src: "{{ playbook_dir }}/roles/ycron/templates/yum-cron.j2"
+    dest: /etc/yum/yum-cron.conf
+    mode: 0644
+
+- template:
+    src: "{{ playbook_dir }}/roles/ycron/templates/yum-cron.j2"
+    dest: /etc/yum/yum-cron-hourly.conf
+    mode: 0644
+
+- name: Starting yum-cron
+  service:
+    name: yum-cron
+    state: restarted
+    enabled: yes
+
+

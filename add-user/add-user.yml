@@ -1,0 +1,49 @@
+--- # playbook to add ssh users and import keys
+
+- hosts: "{{ host }}" 
+  become: yes
+  become_method: sudo
+  remote_user: "{{ ruser }}"
+  gather_facts: yes
+  vars_files:
+   - "./config.yml"
+  tasks:
+
+  - name: Creating "{{ user }}"
+    user:
+      name: "{{ user }}"
+      generate_ssh_key: yes
+
+  - name: appending group(s) "{{ group }}" to "{{ user }}"
+    user: 
+      name: "{{ user }}"
+      groups: "{{ group }}"
+      append: yes
+      generate_ssh_key: yes
+    when: group.0 is defined
+
+  - name: Make sure we have a 'wheel' group
+    group:
+      name: wheel
+      state: present
+    when: 
+      - (group.0 is defined)
+      - ('"wheel" in group')  
+
+  - name: Allow 'wheel' group to have passwordless sudo
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: '^%wheel'
+      line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -cf %s' 
+    when:
+      - (group.0 is defined)
+      - ('"wheel" in group') 
+
+  - name: Set up authorized keys for "{{ user }}"
+    authorized_key: 
+      user: "{{ user }}" 
+      key: "{{ item }}"
+    with_file:
+      - "{{ playbook_dir}}/key/id_rsa.pub"

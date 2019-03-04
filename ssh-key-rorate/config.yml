@@ -1,0 +1,28 @@
+--- # Config file for SSH Key rotation play
+
+#machine(s) you wish to rotate keys on
+host: 
+
+#user which you log into your machine as
+default_local_user: 
+
+#remote host user
+user:
+
+#encryption bits for the ky, 4096 recommended. 
+key_bits:
+
+# path to place new key, including private key name
+key_path: 
+
+# directory keys will be housed in
+key_dir: 
+
+#short description of the key
+key_comment: 
+
+#yes/no. Determines if any other keys should be present in the users authorized_keys file
+is_exclusive: 
+
+#user of the key we're rotating
+host_user:

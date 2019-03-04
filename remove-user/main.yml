@@ -1,0 +1,16 @@
+--- # playbook to remove  ssh users 
+
+- hosts: "{{ host }}" 
+  become: yes
+  become_method: sudo
+  remote_user: opsaws
+  gather_facts: yes
+  vars_files:
+   - "./config.yml"
+  tasks:
+
+  - name: removing "{{ user }}" from "{{ host }}"
+    user:
+      name: "{{ user }}"
+      state: absent
+      remove: yes

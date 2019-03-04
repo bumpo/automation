@@ -1,0 +1,7 @@
+### var file for remove-user playbook###
+
+#host to remove user from
+host:
+#user to remove
+user: 
+

@@ -1,0 +1,10 @@
+--- # central playbook for deplying .war files to GMI 
+
+- hosts: 
+  become: yes
+  become_method: sudo
+  remote_user: ubuntu
+  gather_facts: yes
+
+  tasks:
+    - include: subplays/deploy.yml

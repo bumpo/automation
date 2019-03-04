@@ -1,0 +1,48 @@
+--- # Playbook to install telegraf agent
+
+- hosts: 
+  become: yes
+  become_method: sudo
+  remote_user: 
+  gather_facts: yes
+
+  tasks:
+
+  - name: Creating influx repo 
+    copy:
+      src: <path-to>/telegraf-agent/influxdata.repo
+      dest: /etc/yum.repos.d/
+      owner: root
+      group: root
+      mode: 644
+
+  - name: Installing Telegraf
+    yum:
+      name: telegraf
+      state: present
+
+  - name: Configuring telegraf.conf
+    copy:
+      src: <path-to/telegraf-agent/telegraf.conf
+      dest: /etc/telegraf/telegraf.conf
+      force: yes
+
+  - name: Checking for wildfly
+    stat:
+      path: /opt/wildfly/
+    register: stat_result
+
+  - name: Copyting jolokia.war to deployments/
+    copy:
+      src: <path-to>/telegraf-agent/jolokia.war
+      dest: /opt/wildfly/standalone/deployments/
+      owner: wildfly
+      group: wildfly
+      mode: 0644
+      force: yes
+    when: stat_result.stat.exists == True
+
+  - name: Starting telegraf
+    service:
+      name: telegraf
+      state: started

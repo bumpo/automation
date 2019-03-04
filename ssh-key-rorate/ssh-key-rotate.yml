@@ -1,0 +1,12 @@
+--- # Play to rotate AWS CLI creds on Opsaws hosts
+
+- hosts: "{{ host }}"
+  gather_facts: yes
+  become: yes
+  become_method: sudo
+  remote_user: "{{ user }}"
+  vars_files: 
+    - ./config.yml
+  roles:
+    - sshrotate
+
