@@ -14,6 +14,14 @@
       name: "{{ user }}"
       generate_ssh_key: yes
 
+  - name: Make sure we have a 'wheel' group
+    group:
+      name: wheel
+      state: present
+    when:
+      - (group.0 is defined)
+      - ('"wheel" in group')
+
   - name: appending group(s) "{{ group }}" to "{{ user }}"
     user: 
       name: "{{ user }}"
@@ -21,14 +29,6 @@
       append: yes
       generate_ssh_key: yes
     when: group.0 is defined
-
-  - name: Make sure we have a 'wheel' group
-    group:
-      name: wheel
-      state: present
-    when: 
-      - (group.0 is defined)
-      - ('"wheel" in group')  
 
   - name: Allow 'wheel' group to have passwordless sudo
     lineinfile:

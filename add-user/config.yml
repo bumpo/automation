@@ -4,7 +4,7 @@
 
 #host(s) to run play against
 
-ruser:
+ruser: 
 
 host: 
 
@@ -17,3 +17,4 @@ user:
 #when adding additional groups, not they MUST already exist on the target system. 
 
 group: 
+   - wheel
